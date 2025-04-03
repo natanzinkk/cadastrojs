@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="pt-br">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Cadastro</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Cadastro</h1>
+            <input type="text" id="nome" placeholder="Nome">
+
+            <input type="text" id="email" placeholder="Email">
+
+            <input type="text" id="telefone" placeholder="Telefone">
+
+            <input type="text" id="cep" placeholder="CEP">
+
+            <div class="endereco">
+                <input type="text" id="rua" placeholder="Rua">
+
+                <input type="text" id="bairro" placeholder="Bairro">
+            </div>
+
+            <div class="endereco">
+                <input type="text" id="cidade" placeholder="Cidade">
+
+                <input type="text" id="estado" placeholder="Estado">
+            </div>
+            <button onclick="gravar()">Salvar</button>
+
+            <a href="perfis.html"> Usuários</a>
+
+        </div>
+        <script>
+            window.onload = function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const editarIndex = urlParams.get('editar');
+        
+                if (editarIndex !== null) {
+                    const perfis = JSON.parse(localStorage.getItem('perfis')) || [];
+                    const perfil = perfis[editarIndex];
+        
+                    document.getElementById('nome').value = perfil.nome;
+                    document.getElementById('email').value = perfil.email;
+                    document.getElementById('telefone').value = perfil.telefone;
+                    document.getElementById('cep').value = perfil.cep;
+                    document.getElementById('rua').value = perfil.rua;
+                    document.getElementById('bairro').value = perfil.bairro;
+                    document.getElementById('cidade').value = perfil.cidade;
+                    document.getElementById('estado').value = perfil.estado;
+
+                    const botaoSalvar = document.querySelector('button');
+                    botaoSalvar.textContent = 'Atualizar';
+                    botaoSalvar.onclick = function () {
+                        atualizarPerfil(editarIndex);
+                    };
+                }
+            };
+      
+            function atualizarPerfil(index) {
+                const nome = document.getElementById('nome').value;
+                const email = document.getElementById('email').value;
+                const telefone = document.getElementById('telefone').value;
+                const cep = document.getElementById('cep').value;
+                const rua = document.getElementById('rua').value;
+                const bairro = document.getElementById('bairro').value;
+                const cidade = document.getElementById('cidade').value;
+                const estado = document.getElementById('estado').value;
+        
+                const dadosCadastro = { nome, email, telefone, cep, rua, bairro, cidade, estado };
+        
+                let perfis = JSON.parse(localStorage.getItem('perfis')) || [];
+                perfis[index] = dadosCadastro; 
+        
+                localStorage.setItem('perfis', JSON.stringify(perfis));
+                alert('Perfil atualizado!');
+                window.location.href = 'perfis.html'; 
+            }
+        </script>
+    </body>
+
+    </html>

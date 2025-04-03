@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="containerperfil">
+        <h1>Perfis dos Usuários</h1>
+
+        <div id="perfis-container"></div>
+
+        <a href="index.html">Cadastrar novo perfil</a>
+    </div>
+
+    <script>
+        window.onload = function () {
+            const perfis = JSON.parse(localStorage.getItem('perfis')) || [];
+            const container = document.getElementById('perfis-container');
+
+            if (perfis.length > 0) {
+                perfis.forEach((perfil, index) => {
+                    const perfilDiv = document.createElement('div');
+                    perfilDiv.classList.add('perfil');
+
+                    perfilDiv.innerHTML = `
+                        <label>Nome: <span>${perfil.nome || 'Não informado'}</span></label>
+                        <label>Email: <span>${perfil.email || 'Não informado'}</span></label>
+                        <label>Telefone: <span>${perfil.telefone || 'Não informado'}</span></label>
+                        <label>CEP: <span>${perfil.cep || 'Não informado'}</span></label>
+                        <label>Rua: <span>${perfil.rua || 'Não informado'}</span></label>
+                        <label>Bairro: <span>${perfil.bairro || 'Não informado'}</span></label>
+                        <label>Cidade: <span>${perfil.cidade || 'Não informado'}</span></label>
+                        <label>Estado: <span>${perfil.estado || 'Não informado'}</span></label>
+                        <button onclick="excluirPerfil(${index})">Excluir</button>
+                        <a href="index.html?editar=${index}">Editar</a>
+                    `;
+                    container.appendChild(perfilDiv);
+                });
+            } else {
+                container.innerHTML = 'Nenhum perfil encontrado.';
+            }
+        };
+
+        function excluirPerfil(index) {
+            let perfis = JSON.parse(localStorage.getItem('perfis')) || [];
+            perfis.splice(index, 1);
+            localStorage.setItem('perfis', JSON.stringify(perfis));
+            alert('Perfil excluído com sucesso!');
+            window.location.reload();
+        }
+    </script>
+</body>
